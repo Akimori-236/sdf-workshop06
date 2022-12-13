@@ -4,26 +4,23 @@ import java.io.Console;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.UnknownHostException;
-import java.rmi.server.ServerCloneException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Chat {
-	/*
+	/* PROBLEM
 	 * use threading to facilitate sending and receiving at the same time
 	 * main thread to send
 	 * 2nd thread to wait for messages (read)
 	 * implement runnable
 	 * pass inputstream to constructor
-	 * public void run() {while (true) {String resp = readUTF()}}
 	 */
 	// blocking IO.. very wasteful of threads
-	// non-blocking IO -> keep changing between checkmsgs and sendmsgs
+	// non-blocking IO -> keep changing between checkmsgs and sendmsgs (to research)
 	public static void main(String[] args) {
 		if (args.length != 2) {
-			System.err.println("USE> java -cp classes chat.Chat <host> <port>");
+			System.err.println("USAGE> java -cp classes chat.Chat <host> <port>");
 			return;
 		}
 		// Parameters
@@ -38,9 +35,10 @@ public class Chat {
 
 		// Try to connect as client, if fail start server
 		try {
+			System.out.println("Checking for server at "+host + ":" + port+"...");
 			client.ClientStart(host, port);
 		} catch (ConnectException e) {
-			System.err.println("ERROR> No server available at " + host + ":" + port);
+			System.err.println("No server available at " + host + ":" + port);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			System.err.println("ERROR> Unable to resolve host");
